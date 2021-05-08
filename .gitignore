@@ -5,3 +5,8 @@ sym-lib-table
 *.xml
 *.sch-bak
 *-cache.lib
+
+*.log
+*.net
+*.plt
+*.raw

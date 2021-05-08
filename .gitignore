@@ -2,5 +2,6 @@ fp-info-cache
 sym-lib-table
 *.bck
 *.dcm
+*.xml
 *.sch-bak
 *-cache.lib

@@ -13,19 +13,19 @@ static void init_adc();
 #define SRCLK BIT2
 
 #define CLOCK_FREQ 8  // MHz
-#define SYSTEM_TICK 200  // us
+#define SYSTEM_TICK 20  // us
 #define SYSTEM_ISR_TIMER SYSTEM_TICK * CLOCK_FREQ - 1
 
-#define DISPLAY_FREQ 250  // Hz
-#define DISPLAY_TICK 1000000 / SYSTEM_TICK / DISPLAY_FREQ / 4
+#define DISPLAY_FREQ 100  // Hz
+#define DISPLAY_TICK 1000000 / DISPLAY_FREQ / SYSTEM_TICK / 4
 
-#define UPDATE_FREQ 2  // Hz
+#define UPDATE_FREQ 5  // Hz
 #define UPDATE_TICK 1000000 / SYSTEM_TICK / UPDATE_FREQ
 
-#define MOVAVEN 40  // number of readings to average
+#define MOVAVEN 13  // number of readings to average
 #define DEADBAND 3  // digits
 #define GAIN 6.33  // V/bit
-#define OFFSET 5.6 // V
+#define OFFSET 15.26 // V
 
 unsigned int readings[MOVAVEN];  // array of readings, first element latest
 unsigned int display_digit;  // display digit to update
@@ -83,10 +83,20 @@ void init_timer()
 
 void init_adc()
 {
-    ADC10CTL0 = MSC | ADC10ON;  // adc on, continously read
+    ADC10CTL0 = MSC | ADC10ON | ADC10IE;  // adc on, continously read
     ADC10CTL1 = INCH_5 | ADC10SSEL_1 | CONSEQ_2;  // read A5 (P1.5), use ACLK
     ADC10AE0 = BIT5;  // enable A5 analog input
     ADC10CTL0 |= ENC | ADC10SC;  // start conversion
+}
+
+#pragma vector = ADC10_VECTOR
+interrupt void read_adc(void)
+{
+    int i;
+    for (i = (MOVAVEN - 2); i >= 0; --i) {
+        readings[i + 1] = readings[i];
+    }
+    readings[0] = ADC10MEM;
 }
 
 #pragma vector = TIMER0_A0_VECTOR
@@ -95,27 +105,39 @@ interrupt void update_display(void)
     // update the tick counters
     display_tick += 1;
     update_tick += 1;
-    if (display_tick < DISPLAY_TICK) { return; }
-    else { display_tick = 0; }
+    if (display_tick < DISPLAY_TICK) return;
+    else display_tick = 0;
 
-    // get the latest adc reading and moving average
     int i;
-    unsigned int movave = 0;
-    for (i = (MOVAVEN - 2); i >= 0; --i) {
-        readings[i + 1] = readings[i];
-        movave += readings[i];
-    }
-    readings[0] = ADC10MEM;
-    movave += readings[0];
-    movave = movave / MOVAVEN;
-
     if (update_tick == UPDATE_TICK) {
         update_tick = 0;
-        // apply the deadband
-        unsigned int diff = abs((int) movave - (int) update_reading);
-        if ( diff > DEADBAND) { update_reading = movave; }
+
+        // insertion sort and take median
+        unsigned int sorted_readings[MOVAVEN] = {0};
+        int j, k;
+        for (i = 0; i <= (MOVAVEN - 1); ++i) {
+            if (i == 0) {
+                sorted_readings[0] = readings[0];
+                continue;
+            }
+            for (j = 0; j <= (i - 1); ++j) {
+                if (readings[i] <= sorted_readings[j]) {
+                    for (k = i; k > j; --k) {
+                        sorted_readings[k] = sorted_readings[k - 1];
+                    }
+                    sorted_readings[j] = readings[i];
+                    break;
+                }
+                if (j == (i - 1)) sorted_readings[i] = readings[i];
+            }
+        }
+        unsigned int this_reading = sorted_readings[MOVAVEN / 2];
+        if (abs((int) this_reading - (int) update_reading) > DEADBAND) {
+            update_reading = this_reading;
+        }
     }
 
+    // compute the display description byte
     unsigned int segment = 1 << display_digit;  // segment to update
     unsigned int calibrated_reading = GAIN * update_reading + OFFSET;
 

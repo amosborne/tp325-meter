@@ -8,6 +8,10 @@ static void init_clock();
 static void init_timer();
 static void init_adc();
 
+#define SER BIT0
+#define RCLK BIT1
+#define SRCLK BIT2
+
 #define CLOCK_FREQ 8  // MHz
 #define SYSTEM_TICK 200  // us
 #define SYSTEM_ISR_TIMER SYSTEM_TICK * CLOCK_FREQ - 1
@@ -18,8 +22,8 @@ static void init_adc();
 #define UPDATE_FREQ 2  // Hz
 #define UPDATE_TICK 1000000 / SYSTEM_TICK / UPDATE_FREQ
 
-#define MOVAVEN 20  // number of readings to average
-#define DEADBAND 4  // bits
+#define MOVAVEN 40  // number of readings to average
+#define DEADBAND 3  // digits
 #define GAIN 6.33  // V/bit
 #define OFFSET 5.6 // V
 
@@ -44,6 +48,8 @@ void main(void)
 	init_clock();
 	init_timer();
 	init_adc();
+
+	_low_power_mode_1();
 
 	while(true) {
 	    continue;
@@ -119,11 +125,17 @@ interrupt void update_display(void)
     unsigned int cutoff = overbase * base;
     unsigned int val = calibrated_reading - cutoff;
     for (i = (3 - display_digit); i > 0; --i) { val = val / 10; }  // value to display
-    uint8_t byte = (segment << 4) | val;
+    uint8_t byte = (val << 4) | segment;
 
     // write to the display
-    P1OUT = (P1OUT & 0xF0) | (byte >> 4);
-    P2OUT = (P2OUT & 0xF0) | (byte & 0x0F);
+    for (i = 0; i < 8; ++i) {
+        P1OUT &= ~SRCLK;
+        if ((byte >> i) & BIT0) { P1OUT |= SER; }
+        else { P1OUT &= ~SER; }
+        P1OUT |= SRCLK;
+    }
+    P1OUT |= RCLK;
+    P1OUT ^= RCLK;
 
     // update the display digit
     display_digit += 1;

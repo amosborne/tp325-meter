@@ -18,12 +18,13 @@ static void init_adc();
 #define UPDATE_FREQ 2  // Hz
 #define UPDATE_TICK 1000000 / SYSTEM_TICK / UPDATE_FREQ
 
-#define DEADBAND 5  // bits
+#define MOVAVEN 20  // number of readings to average
+#define DEADBAND 4  // bits
 #define GAIN 6.33  // V/bit
 #define OFFSET 5.6 // V
 
+unsigned int readings[MOVAVEN];  // array of readings, first element latest
 unsigned int display_digit;  // display digit to update
-unsigned int last_reading;  // most recent adc result (digitally filtered)
 unsigned int update_reading;  // reading to be displayed
 unsigned int display_tick;
 unsigned int update_tick;
@@ -33,9 +34,11 @@ void main(void)
 	WDTCTL = WDTPW | WDTHOLD;  // stop watchdog timer
 
 	display_digit = 0;
-	last_reading = 0;
 	display_tick = 0;
 	update_tick = 0;
+
+	int i;
+	for (i = (MOVAVEN - 1); i >= 0; --i) { readings[i] = 0; }
 
 	init_gpio();
 	init_clock();
@@ -89,20 +92,27 @@ interrupt void update_display(void)
     if (display_tick < DISPLAY_TICK) { return; }
     else { display_tick = 0; }
 
-    // get the latest adc reading and low-pass filter
-    last_reading = ADC10MEM;
+    // get the latest adc reading and moving average
+    int i;
+    unsigned int movave = 0;
+    for (i = (MOVAVEN - 2); i >= 0; --i) {
+        readings[i + 1] = readings[i];
+        movave += readings[i];
+    }
+    readings[0] = ADC10MEM;
+    movave += readings[0];
+    movave = movave / MOVAVEN;
 
     if (update_tick == UPDATE_TICK) {
         update_tick = 0;
         // apply the deadband
-        unsigned int diff = abs((int) last_reading - (int) update_reading);
-        if ( diff > DEADBAND) { update_reading = last_reading; }
+        unsigned int diff = abs((int) movave - (int) update_reading);
+        if ( diff > DEADBAND) { update_reading = movave; }
     }
 
     unsigned int segment = 1 << display_digit;  // segment to update
     unsigned int calibrated_reading = GAIN * update_reading + OFFSET;
 
-    unsigned int i;
     unsigned int base = 1;
     for (i = (4 - display_digit); i > 0; --i) { base = base * 10; }
     unsigned int overbase = calibrated_reading / base;

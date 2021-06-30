@@ -10,3 +10,5 @@ sym-lib-table
 *.net
 *.plt
 *.raw
+
+.python-version

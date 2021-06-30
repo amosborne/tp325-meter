@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <lookup.h>
 
 static void init_gpio();
 static void init_clock();
@@ -24,8 +25,7 @@ static void init_adc();
 
 #define MOVAVEN 13  // number of readings to average
 #define DEADBAND 3  // digits
-#define GAIN 6.33  // V/bit
-#define OFFSET 15.26 // V
+#define OFFSET 15  // mV
 
 unsigned int readings[MOVAVEN];  // array of readings, first element latest
 unsigned int display_digit;  // display digit to update
@@ -36,13 +36,6 @@ unsigned int update_tick;
 void main(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;  // stop watchdog timer
-
-	display_digit = 0;
-	display_tick = 0;
-	update_tick = 0;
-
-	int i;
-	for (i = (MOVAVEN - 1); i >= 0; --i) { readings[i] = 0; }
 
 	init_gpio();
 	init_clock();
@@ -59,11 +52,9 @@ void main(void)
 void init_gpio()
 {
     P1DIR = 0xFF;  // set all port 1 to output
-    P2DIR = 0xFF;  // set all port 2 to output
-    P3DIR = 0xFF;  // set all port 3 to output
     P1OUT = 0;  // set all port 1 outputs to low
     P2OUT = 0;  // set all port 2 outputs to low
-    P3OUT = 0;  // set all port 3 outputs to low
+    P2DIR = 0xFF;  // set all port 2 to output
 }
 
 void init_clock()
@@ -139,7 +130,13 @@ interrupt void update_display(void)
 
     // compute the display description byte
     unsigned int segment = 1 << display_digit;  // segment to update
-    unsigned int calibrated_reading = GAIN * update_reading + OFFSET;
+    unsigned int calibrated_reading = OFFSET;
+    unsigned int convert_reading = update_reading;
+    while (convert_reading >= ADC_LOOKUP_SIZE) {
+        calibrated_reading += ADC_LOOKUP[ADC_LOOKUP_SIZE - 1];
+        convert_reading -= ADC_LOOKUP_SIZE;
+    }
+    calibrated_reading += ADC_LOOKUP[convert_reading];
 
     unsigned int base = 1;
     for (i = (4 - display_digit); i > 0; --i) { base = base * 10; }

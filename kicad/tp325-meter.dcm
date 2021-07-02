@@ -1,5 +1,34 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP 2x1-Header
+D 2x1 Header
+$ENDCMP
+#
+$CMP BS170
+D 0.5A Id, 60V Vds, N-Channel MOSFET, TO-92
+K N-Channel MOSFET
+F https://www.mouser.com/datasheet/2/308/1/MMBF170_D-2315979.pdf
+$ENDCMP
+#
+$CMP Capacitor-Nonpolar
+D Ceramic Capacitor
+$ENDCMP
+#
+$CMP INA180A2
+D Low- and High-Side Voltage Output, Current Sense Amplifier
+K current monitor shunt sensor
+F https://www.ti.com/lit/ds/symlink/ina180.pdf
+$ENDCMP
+#
+$CMP Resistor
+D Resistor
+$ENDCMP
+#
+$CMP SA56-21SRWA
+D Single Digit Numeric Display, Common Anode
+F https://www.kingbrightusa.com/images/catalog/SPEC/SA56-21SRWA.pdf
+$ENDCMP
+#
 $CMP SN74HC595N
 D 8-Bit Shift Register with Tri-State Output
 F https://www.ti.com/lit/ds/symlink/sn74hc595.pdf?ts=1625171804222
@@ -8,6 +37,12 @@ $ENDCMP
 $CMP SN74LS47N
 D BCD to Seven-Segment Decoder/Driver
 F https://www.ti.com/lit/ds/symlink/sn5447a.pdf
+$ENDCMP
+#
+$CMP TP2104
+D -0.6A Id, -40V Vds, P-Channel MOSFET, TO-92
+K P-Channel MOSFET
+F https://ww1.microchip.com/downloads/en/DeviceDoc/TP2104-P-Channel-Enhancement-Mode-Vertical-DMOS-FET-Data-Sheet-20005958A.pdf
 $ENDCMP
 #
 #End Doc Library

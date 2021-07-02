@@ -127,8 +127,8 @@ $Comp
 L tp325-meter:SN74LS47N U2
 U 1 1 608F7529
 P 7100 5950
-F 0 "U2" H 6750 6450 50  0000 L CNN
-F 1 "SN74LS47N" H 6750 5450 50  0000 L CNN
+F 0 "U2" H 6750 6550 50  0000 L CNN
+F 1 "SN74LS47N" H 6750 6450 50  0000 L CNN
 F 2 "" H 6350 5550 50  0001 C CNN
 F 3 "https://www.ti.com/lit/ds/symlink/sn74ls47.pdf" H 6350 5550 50  0001 C CNN
 	1    7100 5950
@@ -222,8 +222,8 @@ $Comp
 L tp325-meter:SN74HC595N U3
 U 1 1 60A126CE
 P 5500 6100
-F 0 "U3" H 5250 6650 50  0000 C CNN
-F 1 "SN74HC595N" H 5450 5550 50  0000 C CNN
+F 0 "U3" H 5250 6750 50  0000 C CNN
+F 1 "SN74HC595N" H 5450 6650 50  0000 C CNN
 F 2 "" H 4000 7000 50  0001 C CNN
 F 3 "https://www.ti.com/lit/ds/symlink/sn74hc595.pdf" H 4000 7000 50  0001 C CNN
 	1    5500 6100
@@ -240,10 +240,6 @@ F 3 "" H 4900 5600 50  0001 C CNN
 	1    4900 5600
 	1    0    0    -1  
 $EndComp
-Wire Wire Line
-	4750 2550 4750 2450
-Wire Wire Line
-	4750 2450 4950 2450
 $Comp
 L tp325-meter:Capacitor-Nonpolar C1
 U 1 1 60F1E7DF
@@ -306,8 +302,6 @@ F 3 "" H 4900 6600 50  0001 C CNN
 	1    4900 6600
 	-1   0    0    -1  
 $EndComp
-Wire Wire Line
-	3950 1800 4950 1800
 Text Label 4300 2700 2    50   ~ 0
 SBWTCK
 Text Label 2700 2700 0    50   ~ 0
@@ -404,296 +398,28 @@ F 3 "https://www.ti.com/lit/ds/symlink/msp430g2152.pdf" H 3050 2000 50  0001 C C
 	1    3500 2150
 	1    0    0    -1  
 $EndComp
-Text Notes 3600 7500 0    50   ~ 0
-72R Meter Sense Voltages Relative to DC-\nVoltage Mode (6V): Vdiff=72mV, Vcmn=5.96V\nCurrent Mode (6V/6A): Vdiff=74mV, Vcmn=6.04V\n\nFirst-Stage Buffer to Eliminate Common-Mode\nSecond-Stage Gain of 38 for 2.75V Full-Scale
-$Comp
-L tp325-meter:LM324KN U12
-U 1 1 61331506
-P 1150 7250
-F 0 "U12" H 1150 6950 50  0000 C CNN
-F 1 "LM324KN" H 1150 7050 50  0000 C CNN
-F 2 "" H 1100 7150 50  0001 C CNN
-F 3 "https://www.ti.com/lit/ds/symlink/lm324k.pdf" H 1100 7150 50  0001 C CNN
-	1    1150 7250
-	1    0    0    -1  
-$EndComp
-$Comp
-L tp325-meter:LM324KN U12
-U 2 1 61332702
-P 2050 5750
-F 0 "U12" H 2300 5600 50  0000 C CNN
-F 1 "LM324KN" H 2250 5500 50  0000 C CNN
-F 2 "" H 2000 5650 50  0001 C CNN
-F 3 "https://www.ti.com/lit/ds/symlink/lm324k.pdf" H 2000 5650 50  0001 C CNN
-	2    2050 5750
-	1    0    0    1   
-$EndComp
-$Comp
-L tp325-meter:LM324KN U12
-U 3 1 61333E70
-P 2800 5850
-F 0 "U12" H 3050 6000 50  0000 C CNN
-F 1 "LM324KN" H 3000 6100 50  0000 C CNN
-F 2 "" H 2750 5750 50  0001 C CNN
-F 3 "https://www.ti.com/lit/ds/symlink/lm324k.pdf" H 2750 5750 50  0001 C CNN
-	3    2800 5850
-	1    0    0    -1  
-$EndComp
-$Comp
-L tp325-meter:LM324KN U12
-U 4 1 613357F6
-P 2100 7250
-F 0 "U12" H 2400 7400 50  0000 C CNN
-F 1 "LM324KN" H 2350 7500 50  0000 C CNN
-F 2 "" H 2050 7150 50  0001 C CNN
-F 3 "https://www.ti.com/lit/ds/symlink/lm324k.pdf" H 2050 7150 50  0001 C CNN
-	4    2100 7250
-	1    0    0    -1  
-$EndComp
-$Comp
-L tp325-meter:LM324KN U12
-U 5 1 613373AB
-P 3050 7250
-F 0 "U12" H 3350 7400 50  0000 C CNN
-F 1 "LM324KN" H 3300 7500 50  0000 C CNN
-F 2 "" H 3000 7150 50  0001 C CNN
-F 3 "https://www.ti.com/lit/ds/symlink/lm324k.pdf" H 3000 7150 50  0001 C CNN
-	5    3050 7250
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR036
-U 1 1 6133C12A
-P 1500 7400
-F 0 "#PWR036" H 1500 7150 50  0001 C CNN
-F 1 "GND" H 1500 7250 50  0000 C CNN
-F 2 "" H 1500 7400 50  0001 C CNN
-F 3 "" H 1500 7400 50  0001 C CNN
-	1    1500 7400
-	-1   0    0    -1  
-$EndComp
-Wire Wire Line
-	1400 7300 1500 7300
-$Comp
-L power:+5V #PWR035
-U 1 1 6136167C
-P 1500 7100
-F 0 "#PWR035" H 1500 6950 50  0001 C CNN
-F 1 "+5V" H 1500 7250 50  0000 C CNN
-F 2 "" H 1500 7100 50  0001 C CNN
-F 3 "" H 1500 7100 50  0001 C CNN
-	1    1500 7100
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1400 7200 1500 7200
-Wire Wire Line
-	1500 7200 1500 7100
-$Comp
-L power:GND #PWR037
-U 1 1 61375CE8
-P 1800 7400
-F 0 "#PWR037" H 1800 7150 50  0001 C CNN
-F 1 "GND" H 1800 7250 50  0000 C CNN
-F 2 "" H 1800 7400 50  0001 C CNN
-F 3 "" H 1800 7400 50  0001 C CNN
-	1    1800 7400
-	-1   0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR038
-U 1 1 61388D0C
-P 2750 7400
-F 0 "#PWR038" H 2750 7150 50  0001 C CNN
-F 1 "GND" H 2750 7250 50  0000 C CNN
-F 2 "" H 2750 7400 50  0001 C CNN
-F 3 "" H 2750 7400 50  0001 C CNN
-	1    2750 7400
-	-1   0    0    -1  
-$EndComp
-Wire Wire Line
-	1800 7400 1800 7350
-Wire Wire Line
-	1800 7350 1900 7350
-Wire Wire Line
-	1900 7150 1800 7150
-Wire Wire Line
-	1800 7150 1800 7350
-Connection ~ 1800 7350
-Wire Wire Line
-	2750 7400 2750 7350
-Wire Wire Line
-	2750 7350 2850 7350
-Wire Wire Line
-	2850 7150 2750 7150
-Wire Wire Line
-	2750 7150 2750 7350
-Connection ~ 2750 7350
-NoConn ~ 2450 7250
-NoConn ~ 3400 7250
 $Comp
 L tp325-meter:Resistor R28
 U 1 1 6141F7B0
-P 1250 5600
-F 0 "R28" H 1200 5550 50  0000 R CNN
-F 1 "68" H 1200 5650 50  0000 R CNN
-F 2 "" V 1290 5590 50  0001 C CNN
-F 3 "~" H 1250 5600 50  0001 C CNN
-	1    1250 5600
+P 6100 7400
+F 0 "R28" H 6300 7350 50  0000 R CNN
+F 1 "56" H 6250 7450 50  0000 R CNN
+F 2 "" V 6140 7390 50  0001 C CNN
+F 3 "~" H 6100 7400 50  0001 C CNN
+	1    6100 7400
 	1    0    0    1   
-$EndComp
-$Comp
-L tp325-meter:Resistor R22
-U 1 1 614203F2
-P 1500 5050
-F 0 "R22" V 1400 5050 50  0000 C CNN
-F 1 "22k" V 1300 5050 50  0000 C CNN
-F 2 "" V 1540 5040 50  0001 C CNN
-F 3 "~" H 1500 5050 50  0001 C CNN
-	1    1500 5050
-	0    1    -1   0   
-$EndComp
-$Comp
-L tp325-meter:Resistor R23
-U 1 1 614330A0
-P 2150 5050
-F 0 "R23" V 2050 5050 50  0000 C CNN
-F 1 "22k" V 1950 5050 50  0000 C CNN
-F 2 "" V 2190 5040 50  0001 C CNN
-F 3 "~" H 2150 5050 50  0001 C CNN
-	1    2150 5050
-	0    1    -1   0   
-$EndComp
-$Comp
-L tp325-meter:Resistor R29
-U 1 1 61445C19
-P 1500 5850
-F 0 "R29" V 1400 5850 50  0000 C CNN
-F 1 "22k" V 1300 5850 50  0000 C CNN
-F 2 "" V 1540 5840 50  0001 C CNN
-F 3 "~" H 1500 5850 50  0001 C CNN
-	1    1500 5850
-	0    1    -1   0   
-$EndComp
-$Comp
-L tp325-meter:Resistor R30
-U 1 1 61458653
-P 1750 6100
-F 0 "R30" H 1818 6146 50  0000 L CNN
-F 1 "22k" H 1818 6055 50  0000 L CNN
-F 2 "" V 1790 6090 50  0001 C CNN
-F 3 "~" H 1750 6100 50  0001 C CNN
-	1    1750 6100
-	1    0    0    -1  
 $EndComp
 $Comp
 L tp325-meter:Resistor R26
 U 1 1 6146B1F9
-P 1250 5300
-F 0 "R26" H 1200 5250 50  0000 R CNN
-F 1 "4.7" H 1200 5350 50  0000 R CNN
-F 2 "" V 1290 5290 50  0001 C CNN
-F 3 "~" H 1250 5300 50  0001 C CNN
-	1    1250 5300
+P 6100 7100
+F 0 "R26" H 6150 7050 50  0000 L CNN
+F 1 "8.2" H 6150 7150 50  0000 L CNN
+F 2 "" V 6140 7090 50  0001 C CNN
+F 3 "~" H 6100 7100 50  0001 C CNN
+	1    6100 7100
 	1    0    0    1   
 $EndComp
-Wire Wire Line
-	1250 5750 1250 5850
-Wire Wire Line
-	1250 5050 1250 5150
-Wire Wire Line
-	1650 5050 1750 5050
-Wire Wire Line
-	1350 5050 1250 5050
-Wire Wire Line
-	1750 5050 2000 5050
-Connection ~ 1750 5050
-Wire Wire Line
-	2300 5050 2500 5050
-Wire Wire Line
-	1250 5850 1350 5850
-Wire Wire Line
-	1650 5850 1750 5850
-Wire Wire Line
-	1850 5650 1750 5650
-Wire Wire Line
-	1750 5050 1750 5650
-Wire Wire Line
-	2500 5750 2400 5750
-Wire Wire Line
-	2500 5050 2500 5750
-Wire Wire Line
-	1750 5850 1750 5950
-Connection ~ 1750 5850
-Wire Wire Line
-	1750 5850 1850 5850
-$Comp
-L power:GND #PWR032
-U 1 1 61619741
-P 1750 6250
-F 0 "#PWR032" H 1750 6000 50  0001 C CNN
-F 1 "GND" H 1750 6100 50  0000 C CNN
-F 2 "" H 1750 6250 50  0001 C CNN
-F 3 "" H 1750 6250 50  0001 C CNN
-	1    1750 6250
-	-1   0    0    -1  
-$EndComp
-Wire Wire Line
-	2600 5750 2500 5750
-Connection ~ 2500 5750
-$Comp
-L tp325-meter:Resistor R34
-U 1 1 6166E449
-P 2500 6400
-F 0 "R34" H 2450 6450 50  0000 R CNN
-F 1 "1.5k" H 2450 6350 50  0000 R CNN
-F 2 "" V 2540 6390 50  0001 C CNN
-F 3 "~" H 2500 6400 50  0001 C CNN
-	1    2500 6400
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR033
-U 1 1 6166E453
-P 2500 6550
-F 0 "#PWR033" H 2500 6300 50  0001 C CNN
-F 1 "GND" H 2500 6400 50  0000 C CNN
-F 2 "" H 2500 6550 50  0001 C CNN
-F 3 "" H 2500 6550 50  0001 C CNN
-	1    2500 6550
-	-1   0    0    -1  
-$EndComp
-$Comp
-L tp325-meter:Resistor R31
-U 1 1 616845E9
-P 2900 6150
-F 0 "R31" V 2800 6150 50  0000 C CNN
-F 1 "56k" V 2700 6150 50  0000 C CNN
-F 2 "" V 2940 6140 50  0001 C CNN
-F 3 "~" H 2900 6150 50  0001 C CNN
-	1    2900 6150
-	0    1    -1   0   
-$EndComp
-Wire Wire Line
-	3050 6150 3250 6150
-Wire Wire Line
-	3250 6150 3250 5850
-Wire Wire Line
-	3250 5850 3150 5850
-Wire Wire Line
-	2750 6150 2500 6150
-Wire Wire Line
-	2500 6150 2500 5950
-Wire Wire Line
-	2500 5950 2600 5950
-Wire Wire Line
-	2500 6250 2500 6150
-Connection ~ 2500 6150
-Text Label 3450 5850 2    50   ~ 0
-ADC
-Connection ~ 3250 5850
-Wire Wire Line
-	3250 5850 3450 5850
 $Comp
 L tp325-meter:2x3-Male-Header J2
 U 1 1 617558D2
@@ -705,16 +431,10 @@ F 3 "~" H 1450 2000 50  0001 C CNN
 	1    1450 2000
 	1    0    0    -1  
 $EndComp
-Text Label 950  5850 0    50   ~ 0
+Text Label 6300 7550 0    50   ~ 0
 MTRIN
-Text Label 950  5050 0    50   ~ 0
+Text Label 6300 6950 0    50   ~ 0
 MTROUT
-Wire Wire Line
-	950  5050 1250 5050
-Connection ~ 1250 5050
-Wire Wire Line
-	950  5850 1250 5850
-Connection ~ 1250 5850
 Text Label 900  2000 0    50   ~ 0
 MTRIN
 Text Label 900  2100 0    50   ~ 0
@@ -767,24 +487,8 @@ Text Label 4300 2100 2    50   ~ 0
 ~SRCLR
 Text Label 4300 2200 2    50   ~ 0
 ~OE
-Text Label 4600 1950 0    50   ~ 0
-SRCLK
-Text Label 4600 2050 0    50   ~ 0
-RCLK
-Text Label 4600 2150 0    50   ~ 0
-~SRCLR
-Text Label 4600 2250 0    50   ~ 0
-~OE
-Wire Wire Line
-	4600 1950 4950 1950
-Wire Wire Line
-	4600 2050 4950 2050
-Wire Wire Line
-	4600 2150 4950 2150
-Wire Wire Line
-	4600 2250 4950 2250
-Wire Wire Line
-	1500 7400 1500 7300
+Text Label 6200 6100 2    50   ~ 0
+DIG4
 NoConn ~ 1750 2000
 NoConn ~ 1750 2100
 Wire Wire Line
@@ -1168,8 +872,6 @@ Wire Wire Line
 	8900 5350 8700 5350
 Connection ~ 8700 5350
 Connection ~ 9200 4850
-Connection ~ 9200 3850
-Connection ~ 9200 2850
 Wire Wire Line
 	10000 2150 10000 3150
 Connection ~ 10000 3150
@@ -1245,20 +947,9 @@ Wire Wire Line
 Wire Wire Line
 	9300 1900 9300 1850
 Wire Wire Line
-	9300 1850 9200 1850
-Wire Wire Line
 	9200 1900 9200 1850
-Connection ~ 9200 1850
-Wire Wire Line
-	7500 4850 9200 4850
-Wire Wire Line
-	7500 3850 9200 3850
-Wire Wire Line
-	7500 2850 9200 2850
-Wire Wire Line
-	7500 1850 9200 1850
 Wire Notes Line
-	7750 650  7750 7200
+	7750 600  7750 7150
 Text Notes 7850 1000 0    200  Italic 40
 PROTOBOARD-4
 Wire Wire Line
@@ -1333,4 +1024,564 @@ Wire Wire Line
 	5900 5900 6650 5900
 Wire Wire Line
 	5900 6000 6650 6000
+Wire Wire Line
+	5100 6000 4250 6000
+Wire Wire Line
+	5100 6100 4250 6100
+Wire Wire Line
+	5100 6200 4250 6200
+Wire Wire Line
+	5900 6100 6200 6100
+Wire Wire Line
+	5900 6200 6200 6200
+Wire Wire Line
+	5900 6300 6200 6300
+Wire Wire Line
+	5900 6400 6200 6400
+Text Label 6200 6200 2    50   ~ 0
+DIG3
+Text Label 6200 6300 2    50   ~ 0
+DIG2
+Text Label 6200 6400 2    50   ~ 0
+DIG1
+Wire Notes Line
+	4500 7900 4500 600 
+Text Notes 4900 1000 0    200  Italic 40
+PROTOBOARD-3
+$Comp
+L tp325-meter:TP2104 Q?
+U 1 1 6183FE04
+P 5650 2150
+F 0 "Q?" H 5855 2104 50  0000 L CNN
+F 1 "TP2104" H 5855 2195 50  0000 L CNN
+F 2 "" H 5850 2075 50  0001 L CIN
+F 3 "https://ww1.microchip.com/downloads/en/DeviceDoc/TP2104-P-Channel-Enhancement-Mode-Vertical-DMOS-FET-Data-Sheet-20005958A.pdf" H 5650 2150 50  0001 L CNN
+	1    5650 2150
+	1    0    0    1   
+$EndComp
+$Comp
+L tp325-meter:BS170 Q?
+U 1 1 61840C1F
+P 5150 2400
+F 0 "Q?" H 5354 2446 50  0000 L CNN
+F 1 "BS170" H 5354 2355 50  0000 L CNN
+F 2 "" H 5350 2325 50  0001 L CIN
+F 3 "https://www.mouser.com/datasheet/2/308/1/MMBF170_D-2315979.pdf" H 5150 2400 50  0001 L CNN
+	1    5150 2400
+	1    0    0    -1  
+$EndComp
+$Comp
+L tp325-meter:Resistor R?
+U 1 1 61848424
+P 5250 1950
+F 0 "R?" H 5200 2000 50  0000 R CNN
+F 1 "1.5k" H 5200 1900 50  0000 R CNN
+F 2 "" V 5290 1940 50  0001 C CNN
+F 3 "~" H 5250 1950 50  0001 C CNN
+	1    5250 1950
+	1    0    0    -1  
+$EndComp
+$Comp
+L tp325-meter:Resistor R?
+U 1 1 61878146
+P 4900 2600
+F 0 "R?" H 4850 2650 50  0000 R CNN
+F 1 "1.5k" H 4850 2550 50  0000 R CNN
+F 2 "" V 4940 2590 50  0001 C CNN
+F 3 "~" H 4900 2600 50  0001 C CNN
+	1    4900 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 618A5603
+P 5250 2850
+F 0 "#PWR?" H 5250 2600 50  0001 C CNN
+F 1 "GND" H 5250 2700 50  0000 C CNN
+F 2 "" H 5250 2850 50  0001 C CNN
+F 3 "" H 5250 2850 50  0001 C CNN
+	1    5250 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 618C8009
+P 5250 1700
+F 0 "#PWR?" H 5250 1550 50  0001 C CNN
+F 1 "+5V" H 5250 1850 50  0000 C CNN
+F 2 "" H 5250 1700 50  0001 C CNN
+F 3 "" H 5250 1700 50  0001 C CNN
+	1    5250 1700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4900 2450 4900 2400
+Wire Wire Line
+	4900 2400 4950 2400
+Text Label 4700 2400 0    50   ~ 0
+DIG1
+Wire Wire Line
+	4700 2400 4900 2400
+Connection ~ 4900 2400
+Wire Wire Line
+	9200 1850 9300 1850
+Wire Wire Line
+	4900 2750 4900 2800
+Wire Wire Line
+	4900 2800 5250 2800
+Wire Wire Line
+	5250 2600 5250 2800
+Wire Wire Line
+	5250 2850 5250 2800
+Connection ~ 5250 2800
+Wire Wire Line
+	5250 1700 5250 1750
+Wire Wire Line
+	5250 2100 5250 2150
+Wire Wire Line
+	5450 2150 5250 2150
+Connection ~ 5250 2150
+Wire Wire Line
+	5250 2150 5250 2200
+Wire Wire Line
+	5750 1950 5750 1750
+Wire Wire Line
+	5750 1750 5250 1750
+Connection ~ 5250 1750
+Wire Wire Line
+	5250 1750 5250 1800
+Wire Wire Line
+	5750 2350 5750 2600
+Text Label 6000 2600 2    50   ~ 0
+PWR1
+Wire Wire Line
+	5750 2600 6000 2600
+Text Label 8900 1850 0    50   ~ 0
+PWR1
+Wire Wire Line
+	8900 1850 9200 1850
+Connection ~ 9200 1850
+$Comp
+L tp325-meter:TP2104 Q?
+U 1 1 61AD56CC
+P 7150 2150
+F 0 "Q?" H 7355 2104 50  0000 L CNN
+F 1 "TP2104" H 7355 2195 50  0000 L CNN
+F 2 "" H 7350 2075 50  0001 L CIN
+F 3 "https://ww1.microchip.com/downloads/en/DeviceDoc/TP2104-P-Channel-Enhancement-Mode-Vertical-DMOS-FET-Data-Sheet-20005958A.pdf" H 7150 2150 50  0001 L CNN
+	1    7150 2150
+	1    0    0    1   
+$EndComp
+$Comp
+L tp325-meter:BS170 Q?
+U 1 1 61AD56D6
+P 6650 2400
+F 0 "Q?" H 6854 2446 50  0000 L CNN
+F 1 "BS170" H 6854 2355 50  0000 L CNN
+F 2 "" H 6850 2325 50  0001 L CIN
+F 3 "https://www.mouser.com/datasheet/2/308/1/MMBF170_D-2315979.pdf" H 6650 2400 50  0001 L CNN
+	1    6650 2400
+	1    0    0    -1  
+$EndComp
+$Comp
+L tp325-meter:Resistor R?
+U 1 1 61AD56E0
+P 6750 1950
+F 0 "R?" H 6700 2000 50  0000 R CNN
+F 1 "1.5k" H 6700 1900 50  0000 R CNN
+F 2 "" V 6790 1940 50  0001 C CNN
+F 3 "~" H 6750 1950 50  0001 C CNN
+	1    6750 1950
+	1    0    0    -1  
+$EndComp
+$Comp
+L tp325-meter:Resistor R?
+U 1 1 61AD56EA
+P 6400 2600
+F 0 "R?" H 6350 2650 50  0000 R CNN
+F 1 "1.5k" H 6350 2550 50  0000 R CNN
+F 2 "" V 6440 2590 50  0001 C CNN
+F 3 "~" H 6400 2600 50  0001 C CNN
+	1    6400 2600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 61AD56F4
+P 6750 2850
+F 0 "#PWR?" H 6750 2600 50  0001 C CNN
+F 1 "GND" H 6750 2700 50  0000 C CNN
+F 2 "" H 6750 2850 50  0001 C CNN
+F 3 "" H 6750 2850 50  0001 C CNN
+	1    6750 2850
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 61AD56FE
+P 6750 1700
+F 0 "#PWR?" H 6750 1550 50  0001 C CNN
+F 1 "+5V" H 6750 1850 50  0000 C CNN
+F 2 "" H 6750 1700 50  0001 C CNN
+F 3 "" H 6750 1700 50  0001 C CNN
+	1    6750 1700
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6400 2450 6400 2400
+Wire Wire Line
+	6400 2400 6450 2400
+Text Label 6200 2400 0    50   ~ 0
+DIG2
+Wire Wire Line
+	6200 2400 6400 2400
+Connection ~ 6400 2400
+Wire Wire Line
+	6400 2750 6400 2800
+Wire Wire Line
+	6400 2800 6750 2800
+Wire Wire Line
+	6750 2600 6750 2800
+Wire Wire Line
+	6750 2850 6750 2800
+Connection ~ 6750 2800
+Wire Wire Line
+	6750 1700 6750 1750
+Wire Wire Line
+	6750 2100 6750 2150
+Wire Wire Line
+	6950 2150 6750 2150
+Connection ~ 6750 2150
+Wire Wire Line
+	6750 2150 6750 2200
+Wire Wire Line
+	7250 1950 7250 1750
+Wire Wire Line
+	7250 1750 6750 1750
+Connection ~ 6750 1750
+Wire Wire Line
+	6750 1750 6750 1800
+Wire Wire Line
+	7250 2350 7250 2600
+Text Label 7500 2600 2    50   ~ 0
+PWR2
+Wire Wire Line
+	7250 2600 7500 2600
+$Comp
+L tp325-meter:TP2104 Q?
+U 1 1 61AF27CC
+P 5650 3900
+F 0 "Q?" H 5855 3854 50  0000 L CNN
+F 1 "TP2104" H 5855 3945 50  0000 L CNN
+F 2 "" H 5850 3825 50  0001 L CIN
+F 3 "https://ww1.microchip.com/downloads/en/DeviceDoc/TP2104-P-Channel-Enhancement-Mode-Vertical-DMOS-FET-Data-Sheet-20005958A.pdf" H 5650 3900 50  0001 L CNN
+	1    5650 3900
+	1    0    0    1   
+$EndComp
+$Comp
+L tp325-meter:BS170 Q?
+U 1 1 61AF27D6
+P 5150 4150
+F 0 "Q?" H 5354 4196 50  0000 L CNN
+F 1 "BS170" H 5354 4105 50  0000 L CNN
+F 2 "" H 5350 4075 50  0001 L CIN
+F 3 "https://www.mouser.com/datasheet/2/308/1/MMBF170_D-2315979.pdf" H 5150 4150 50  0001 L CNN
+	1    5150 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L tp325-meter:Resistor R?
+U 1 1 61AF27E0
+P 5250 3700
+F 0 "R?" H 5200 3750 50  0000 R CNN
+F 1 "1.5k" H 5200 3650 50  0000 R CNN
+F 2 "" V 5290 3690 50  0001 C CNN
+F 3 "~" H 5250 3700 50  0001 C CNN
+	1    5250 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L tp325-meter:Resistor R?
+U 1 1 61AF27EA
+P 4900 4350
+F 0 "R?" H 4850 4400 50  0000 R CNN
+F 1 "1.5k" H 4850 4300 50  0000 R CNN
+F 2 "" V 4940 4340 50  0001 C CNN
+F 3 "~" H 4900 4350 50  0001 C CNN
+	1    4900 4350
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 61AF27F4
+P 5250 4600
+F 0 "#PWR?" H 5250 4350 50  0001 C CNN
+F 1 "GND" H 5250 4450 50  0000 C CNN
+F 2 "" H 5250 4600 50  0001 C CNN
+F 3 "" H 5250 4600 50  0001 C CNN
+	1    5250 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 61AF27FE
+P 5250 3450
+F 0 "#PWR?" H 5250 3300 50  0001 C CNN
+F 1 "+5V" H 5250 3600 50  0000 C CNN
+F 2 "" H 5250 3450 50  0001 C CNN
+F 3 "" H 5250 3450 50  0001 C CNN
+	1    5250 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4900 4200 4900 4150
+Wire Wire Line
+	4900 4150 4950 4150
+Text Label 4700 4150 0    50   ~ 0
+DIG3
+Wire Wire Line
+	4700 4150 4900 4150
+Connection ~ 4900 4150
+Wire Wire Line
+	4900 4500 4900 4550
+Wire Wire Line
+	4900 4550 5250 4550
+Wire Wire Line
+	5250 4350 5250 4550
+Wire Wire Line
+	5250 4600 5250 4550
+Connection ~ 5250 4550
+Wire Wire Line
+	5250 3450 5250 3500
+Wire Wire Line
+	5250 3850 5250 3900
+Wire Wire Line
+	5450 3900 5250 3900
+Connection ~ 5250 3900
+Wire Wire Line
+	5250 3900 5250 3950
+Wire Wire Line
+	5750 3700 5750 3500
+Wire Wire Line
+	5750 3500 5250 3500
+Connection ~ 5250 3500
+Wire Wire Line
+	5250 3500 5250 3550
+Wire Wire Line
+	5750 4100 5750 4350
+Text Label 6000 4350 2    50   ~ 0
+PWR3
+Wire Wire Line
+	5750 4350 6000 4350
+$Comp
+L tp325-meter:TP2104 Q?
+U 1 1 61AF281E
+P 7150 3900
+F 0 "Q?" H 7355 3854 50  0000 L CNN
+F 1 "TP2104" H 7355 3945 50  0000 L CNN
+F 2 "" H 7350 3825 50  0001 L CIN
+F 3 "https://ww1.microchip.com/downloads/en/DeviceDoc/TP2104-P-Channel-Enhancement-Mode-Vertical-DMOS-FET-Data-Sheet-20005958A.pdf" H 7150 3900 50  0001 L CNN
+	1    7150 3900
+	1    0    0    1   
+$EndComp
+$Comp
+L tp325-meter:BS170 Q?
+U 1 1 61AF2828
+P 6650 4150
+F 0 "Q?" H 6854 4196 50  0000 L CNN
+F 1 "BS170" H 6854 4105 50  0000 L CNN
+F 2 "" H 6850 4075 50  0001 L CIN
+F 3 "https://www.mouser.com/datasheet/2/308/1/MMBF170_D-2315979.pdf" H 6650 4150 50  0001 L CNN
+	1    6650 4150
+	1    0    0    -1  
+$EndComp
+$Comp
+L tp325-meter:Resistor R?
+U 1 1 61AF2832
+P 6750 3700
+F 0 "R?" H 6700 3750 50  0000 R CNN
+F 1 "1.5k" H 6700 3650 50  0000 R CNN
+F 2 "" V 6790 3690 50  0001 C CNN
+F 3 "~" H 6750 3700 50  0001 C CNN
+	1    6750 3700
+	1    0    0    -1  
+$EndComp
+$Comp
+L tp325-meter:Resistor R?
+U 1 1 61AF283C
+P 6400 4350
+F 0 "R?" H 6350 4400 50  0000 R CNN
+F 1 "1.5k" H 6350 4300 50  0000 R CNN
+F 2 "" V 6440 4340 50  0001 C CNN
+F 3 "~" H 6400 4350 50  0001 C CNN
+	1    6400 4350
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR?
+U 1 1 61AF2846
+P 6750 4600
+F 0 "#PWR?" H 6750 4350 50  0001 C CNN
+F 1 "GND" H 6750 4450 50  0000 C CNN
+F 2 "" H 6750 4600 50  0001 C CNN
+F 3 "" H 6750 4600 50  0001 C CNN
+	1    6750 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR?
+U 1 1 61AF2850
+P 6750 3450
+F 0 "#PWR?" H 6750 3300 50  0001 C CNN
+F 1 "+5V" H 6750 3600 50  0000 C CNN
+F 2 "" H 6750 3450 50  0001 C CNN
+F 3 "" H 6750 3450 50  0001 C CNN
+	1    6750 3450
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6400 4200 6400 4150
+Wire Wire Line
+	6400 4150 6450 4150
+Text Label 6200 4150 0    50   ~ 0
+DIG4
+Wire Wire Line
+	6200 4150 6400 4150
+Connection ~ 6400 4150
+Wire Wire Line
+	6400 4500 6400 4550
+Wire Wire Line
+	6400 4550 6750 4550
+Wire Wire Line
+	6750 4350 6750 4550
+Wire Wire Line
+	6750 4600 6750 4550
+Connection ~ 6750 4550
+Wire Wire Line
+	6750 3450 6750 3500
+Wire Wire Line
+	6750 3850 6750 3900
+Wire Wire Line
+	6950 3900 6750 3900
+Connection ~ 6750 3900
+Wire Wire Line
+	6750 3900 6750 3950
+Wire Wire Line
+	7250 3700 7250 3500
+Wire Wire Line
+	7250 3500 6750 3500
+Connection ~ 6750 3500
+Wire Wire Line
+	6750 3500 6750 3550
+Wire Wire Line
+	7250 4100 7250 4350
+Text Label 7500 4350 2    50   ~ 0
+PWR4
+Wire Wire Line
+	7250 4350 7500 4350
+Text Label 8900 2850 0    50   ~ 0
+PWR2
+Wire Wire Line
+	8900 2850 9200 2850
+Connection ~ 9200 2850
+Text Label 8900 3850 0    50   ~ 0
+PWR3
+Wire Wire Line
+	8900 3850 9200 3850
+Connection ~ 9200 3850
+Text Label 8900 4850 0    50   ~ 0
+PWR4
+Wire Wire Line
+	8900 4850 9200 4850
+$Comp
+L power:GND #PWR?
+U 1 1 61B654AE
+P 5700 7600
+F 0 "#PWR?" H 5700 7350 50  0001 C CNN
+F 1 "GND" H 5700 7450 50  0000 C CNN
+F 2 "" H 5700 7600 50  0001 C CNN
+F 3 "" H 5700 7600 50  0001 C CNN
+	1    5700 7600
+	-1   0    0    -1  
+$EndComp
+Wire Wire Line
+	5700 7600 5700 7550
+$Comp
+L power:+5V #PWR?
+U 1 1 61B77E0B
+P 5700 6900
+F 0 "#PWR?" H 5700 6750 50  0001 C CNN
+F 1 "+5V" H 5700 7050 50  0000 C CNN
+F 2 "" H 5700 6900 50  0001 C CNN
+F 3 "" H 5700 6900 50  0001 C CNN
+	1    5700 6900
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5700 7000 5700 6950
+$Comp
+L tp325-meter:Capacitor-Nonpolar C?
+U 1 1 61B9C2B0
+P 5200 7400
+F 0 "C?" H 5100 7450 50  0000 R CNN
+F 1 "0.1u" H 5100 7350 50  0000 R CNN
+F 2 "" H 5200 7400 50  0001 C CNN
+F 3 "~" H 5200 7400 50  0001 C CNN
+	1    5200 7400
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	5200 7300 5200 6950
+Wire Wire Line
+	5200 6950 5700 6950
+Connection ~ 5700 6950
+Wire Wire Line
+	5700 6950 5700 6900
+Wire Wire Line
+	5200 7500 5200 7550
+Wire Wire Line
+	5200 7550 5700 7550
+Connection ~ 5700 7550
+Wire Wire Line
+	5700 7550 5700 7500
+Wire Wire Line
+	3700 7250 5400 7250
+Wire Wire Line
+	6100 7550 6000 7550
+Wire Wire Line
+	6000 7550 6000 7350
+Wire Wire Line
+	6100 6950 6000 6950
+Wire Wire Line
+	6000 6950 6000 7150
+Connection ~ 6100 7550
+Connection ~ 6100 6950
+$Comp
+L tp325-meter:2x1-Header J?
+U 1 1 61E0A4F1
+P 6800 7050
+F 0 "J?" H 6750 7350 50  0000 L CNN
+F 1 "2x1-Header" H 6750 7250 50  0000 L CNN
+F 2 "" H 6800 7050 50  0001 C CNN
+F 3 "" H 6800 7050 50  0001 C CNN
+	1    6800 7050
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6600 7550 6600 7050
+Wire Wire Line
+	6100 7550 6600 7550
+Wire Wire Line
+	6100 6950 6600 6950
+$Comp
+L tp325-meter:INA180A2 U?
+U 1 1 61E398D9
+P 5700 7250
+F 0 "U?" H 5950 7500 50  0000 C CNN
+F 1 "INA180A2" H 5950 7400 50  0000 C CNN
+F 2 "" H 5750 7300 50  0001 C CNN
+F 3 "https://www.ti.com/lit/ds/symlink/ina180.pdf" H 5850 7400 50  0001 C CNN
+	1    5700 7250
+	-1   0    0    -1  
+$EndComp
 $EndSCHEMATC

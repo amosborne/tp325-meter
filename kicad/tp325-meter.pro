@@ -1,4 +1,4 @@
-update=5/8/2021 10:30:40 PM
+update=7/2/2021 4:09:28 PM
 last_client=kicad
 [general]
 version=1
@@ -10,5 +10,5 @@ SubpartIdSeparator=0
 SubpartFirstId=65
 NetFmtName=OrcadPCB2
 SpiceAjustPassiveValues=0
-LabSize=50
+LabSize=200
 ERC_TestSimilarLabels=1

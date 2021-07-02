@@ -1,5 +1,16 @@
 EESchema-DOCLIB  Version 2.0
 #
+$CMP 1N4001
+D General Purpose Plastic Rectifier
+F https://www.vishay.com/docs/88503/1n4001.pdf
+$ENDCMP
+#
+$CMP 2N3904
+D 0.2A Ic, 40V Vce, Small Signal NPN Transistor, TO-92
+K NPN Transistor
+F https://www.mouser.com/datasheet/2/258/2N3904_TO_92_-1625746.pdf
+$ENDCMP
+#
 $CMP 2x1-Header
 D 2x1 Header
 $ENDCMP
@@ -14,10 +25,31 @@ $CMP Capacitor-Nonpolar
 D Ceramic Capacitor
 $ENDCMP
 #
+$CMP Capacitor-Polar
+D Electrolytic Capacitor
+K cap capacitor
+F ~
+$ENDCMP
+#
 $CMP INA180A2
 D Low- and High-Side Voltage Output, Current Sense Amplifier
 K current monitor shunt sensor
 F https://www.ti.com/lit/ds/symlink/ina180.pdf
+$ENDCMP
+#
+$CMP LF33CV
+D VLDO 3V3 Regulator
+F https://www.st.com/resource/en/datasheet/cd00000546.pdf
+$ENDCMP
+#
+$CMP LM317KN
+D 3-Terminal Ajustable Regulator
+F http://www.ti.com/lit/ds/symlink/lm317.pdf
+$ENDCMP
+#
+$CMP MSP430G2152IN2
+D Mixed Signal Microcontroller
+F https://www.ti.com/lit/ds/symlink/msp430g2152.pdf
 $ENDCMP
 #
 $CMP Resistor

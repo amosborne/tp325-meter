@@ -1,4 +1,4 @@
-SPACING = 64
+SPACING = 16
 
 with open("lookup.h", "w") as writer:
     writer.write("const unsigned int ADC_LOOKUP[] = {")

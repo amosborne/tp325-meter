@@ -9,7 +9,10 @@ static void init_clock();
 static void init_timer();
 static void init_adc();
 
+static unsigned int calibrated_reading();
 static unsigned int median_reading(unsigned int *);
+
+static void display_reading(unsigned int);
 static uint8_t reading2byte(unsigned int);
 static void byte2display(uint8_t byte);
 const unsigned int BASE[] = {10000, 1000, 100, 10, 1};
@@ -28,9 +31,7 @@ const unsigned int BASE[] = {10000, 1000, 100, 10, 1};
 #define UPDATE_FREQ 5  // Hz
 #define UPDATE_TICK 1000000 / SYSTEM_TICK / UPDATE_FREQ  // counts
 
-#define MOVAVEN 21  // number of readings to average
-#define DEADBAND 3  // digits
-#define OFFSET 52  // mV
+#define MOVAVEN 13  // number of readings to average
 
 unsigned int readings[MOVAVEN];  // array of readings, first element latest
 unsigned int display_digit;  // display digit to update
@@ -104,33 +105,17 @@ interrupt void update_display(void)
     if (display_tick < DISPLAY_TICK) return;
     else display_tick = 0;
 
+    // get the calibrated reading to be displayed
     if (update_tick == UPDATE_TICK) {
         update_tick = 0;
-
-        unsigned int copy_readings[MOVAVEN] = {};
-        memcpy(copy_readings, readings, sizeof(unsigned int) * MOVAVEN);
-        unsigned int reading = median_reading(copy_readings);
-
-        unsigned int leftover = reading & 0x3F;  // mask last 6 bits
-        unsigned int index = reading >> 6;  // lookup table index
-        unsigned int lookup = ADC_LOOKUP[index];
-
-        unsigned int slope;
-        if (index) { slope = (lookup - ADC_LOOKUP[index - 1]); }
-        else { slope = ADC_LOOKUP[index + 1] - lookup; }
-
-        update_reading = ((slope * leftover) >> 6) + lookup;
+        update_reading = calibrated_reading();
     }
 
-
-
     // write the reading to the display for the current display digit
-    uint8_t byte = reading2byte(update_reading);
-    byte2display(byte);
+    display_reading(update_reading);
 
     // update the display digit
-    if (display_digit > 2) { display_digit = 0; }
-    else { display_digit += 1; }
+    display_digit = (display_digit + 1) & 0x3;
 }
 
 unsigned int median_reading(unsigned int * copy_readings)
@@ -152,6 +137,23 @@ unsigned int median_reading(unsigned int * copy_readings)
     return copy_readings[MOVAVEN / 2];
 }
 
+unsigned int calibrated_reading()
+{
+    unsigned int copy_readings[MOVAVEN] = {};
+    memcpy(copy_readings, readings, sizeof(unsigned int) * MOVAVEN);
+    unsigned int reading = median_reading(copy_readings);
+
+    unsigned int leftover = reading & 0xF;  // mask last 4 bits
+    unsigned int index = reading >> 4;  // lookup table index
+    unsigned int lookup = ADC_LOOKUP[index];
+
+    unsigned int slope;
+    if (index) { slope = (lookup - ADC_LOOKUP[index - 1]); }
+    else { slope = ADC_LOOKUP[index + 1] - lookup; }
+
+    return ((slope * leftover) >> 4) + lookup;
+}
+
 uint8_t reading2byte(unsigned int reading)
 {
     unsigned int overflow = ((reading / BASE[display_digit]) * BASE[display_digit]);
@@ -171,4 +173,10 @@ void byte2display(uint8_t byte)
     }
     P1OUT |= RCLK;  // RCLK HIGH
     P1OUT ^= RCLK;  // RCLK LOW
+}
+
+void display_reading(unsigned int reading)
+{
+    uint8_t byte = reading2byte(reading);
+    byte2display(byte);
 }

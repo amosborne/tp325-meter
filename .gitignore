@@ -1,10 +1,9 @@
 fp-info-cache
-sym-lib-table
+*.bak
 *.bck
-*.dcm
+*.kicad_pcb-bak
 *.xml
 *.sch-bak
-*-cache.lib
 
 *.log
 *.net

@@ -9,23 +9,28 @@ static void init_clock();
 static void init_timer();
 static void init_adc();
 
+static unsigned int median_reading(unsigned int *);
+static uint8_t reading2byte(unsigned int);
+static void byte2display(uint8_t byte);
+const unsigned int BASE[] = {10000, 1000, 100, 10, 1};
+
 #define SER BIT0
 #define RCLK BIT1
 #define SRCLK BIT2
 
 #define CLOCK_FREQ 8  // MHz
 #define SYSTEM_TICK 20  // us
-#define SYSTEM_ISR_TIMER SYSTEM_TICK * CLOCK_FREQ - 1
+#define SYSTEM_ISR_TIMER SYSTEM_TICK * CLOCK_FREQ - 1  // counts
 
 #define DISPLAY_FREQ 100  // Hz
-#define DISPLAY_TICK 1000000 / DISPLAY_FREQ / SYSTEM_TICK / 4
+#define DISPLAY_TICK 1000000 / DISPLAY_FREQ / SYSTEM_TICK / 4  // counts
 
 #define UPDATE_FREQ 5  // Hz
-#define UPDATE_TICK 1000000 / SYSTEM_TICK / UPDATE_FREQ
+#define UPDATE_TICK 1000000 / SYSTEM_TICK / UPDATE_FREQ  // counts
 
-#define MOVAVEN 13  // number of readings to average
+#define MOVAVEN 21  // number of readings to average
 #define DEADBAND 3  // digits
-#define OFFSET 15  // mV
+#define OFFSET 52  // mV
 
 unsigned int readings[MOVAVEN];  // array of readings, first element latest
 unsigned int display_digit;  // display digit to update
@@ -83,9 +88,9 @@ void init_adc()
 #pragma vector = ADC10_VECTOR
 interrupt void read_adc(void)
 {
-    int i;
-    for (i = (MOVAVEN - 2); i >= 0; --i) {
-        readings[i + 1] = readings[i];
+    unsigned int i;
+    for (i = (MOVAVEN - 1); i; --i) {
+        readings[i] = readings[i - 1];
     }
     readings[0] = ADC10MEM;
 }
@@ -99,64 +104,71 @@ interrupt void update_display(void)
     if (display_tick < DISPLAY_TICK) return;
     else display_tick = 0;
 
-    int i;
     if (update_tick == UPDATE_TICK) {
         update_tick = 0;
 
-        // insertion sort and take median
-        unsigned int sorted_readings[MOVAVEN] = {0};
-        int j, k;
-        for (i = 0; i <= (MOVAVEN - 1); ++i) {
-            if (i == 0) {
-                sorted_readings[0] = readings[0];
-                continue;
-            }
-            for (j = 0; j <= (i - 1); ++j) {
-                if (readings[i] <= sorted_readings[j]) {
-                    for (k = i; k > j; --k) {
-                        sorted_readings[k] = sorted_readings[k - 1];
-                    }
-                    sorted_readings[j] = readings[i];
-                    break;
-                }
-                if (j == (i - 1)) sorted_readings[i] = readings[i];
-            }
-        }
-        unsigned int this_reading = sorted_readings[MOVAVEN / 2];
-        if (abs((int) this_reading - (int) update_reading) > DEADBAND) {
-            update_reading = this_reading;
-        }
+        unsigned int copy_readings[MOVAVEN] = {};
+        memcpy(copy_readings, readings, sizeof(unsigned int) * MOVAVEN);
+        unsigned int reading = median_reading(copy_readings);
+
+        unsigned int leftover = reading & 0x3F;  // mask last 6 bits
+        unsigned int index = reading >> 6;  // lookup table index
+        unsigned int lookup = ADC_LOOKUP[index];
+
+        unsigned int slope;
+        if (index) { slope = (lookup - ADC_LOOKUP[index - 1]); }
+        else { slope = ADC_LOOKUP[index + 1] - lookup; }
+
+        update_reading = ((slope * leftover) >> 6) + lookup;
     }
 
-    // compute the display description byte
-    unsigned int segment = 1 << display_digit;  // segment to update
-    unsigned int calibrated_reading = OFFSET;
-    unsigned int convert_reading = update_reading;
-    while (convert_reading >= ADC_LOOKUP_SIZE) {
-        calibrated_reading += ADC_LOOKUP[ADC_LOOKUP_SIZE - 1];
-        convert_reading -= ADC_LOOKUP_SIZE;
-    }
-    calibrated_reading += ADC_LOOKUP[convert_reading];
 
-    unsigned int base = 1;
-    for (i = (4 - display_digit); i > 0; --i) { base = base * 10; }
-    unsigned int overbase = calibrated_reading / base;
-    unsigned int cutoff = overbase * base;
-    unsigned int val = calibrated_reading - cutoff;
-    for (i = (3 - display_digit); i > 0; --i) { val = val / 10; }  // value to display
-    uint8_t byte = (val << 4) | segment;
 
-    // write to the display
-    for (i = 0; i < 8; ++i) {
-        P1OUT &= ~SRCLK;
-        if ((byte >> i) & BIT0) { P1OUT |= SER; }
-        else { P1OUT &= ~SER; }
-        P1OUT |= SRCLK;
-    }
-    P1OUT |= RCLK;
-    P1OUT ^= RCLK;
+    // write the reading to the display for the current display digit
+    uint8_t byte = reading2byte(update_reading);
+    byte2display(byte);
 
     // update the display digit
-    display_digit += 1;
-    if (display_digit > 3) { display_digit = 0; }
+    if (display_digit > 2) { display_digit = 0; }
+    else { display_digit += 1; }
+}
+
+unsigned int median_reading(unsigned int * copy_readings)
+{
+    // bubble sort algorithm (see wikipedia)
+    unsigned int i, tmp, newn, n = MOVAVEN;
+    while (n > 1) {
+        newn = 0;
+        for (i = 1; i < n; ++i) {
+            if (copy_readings[i - 1] > copy_readings[i]) {
+                tmp = copy_readings[i - 1];
+                copy_readings[i - 1] = copy_readings[i];
+                copy_readings[i] = tmp;
+                newn = i;
+            }
+        }
+        n = newn;
+    }
+    return copy_readings[MOVAVEN / 2];
+}
+
+uint8_t reading2byte(unsigned int reading)
+{
+    unsigned int overflow = ((reading / BASE[display_digit]) * BASE[display_digit]);
+    uint8_t value = (reading - overflow) / BASE[display_digit + 1];
+    uint8_t segment = (1 << display_digit);
+    return (value << 4) | segment;
+}
+
+void byte2display(uint8_t byte)
+{
+    unsigned int i;
+    for (i = 8; i; --i) {
+        P1OUT &= ~SRCLK;  // SRCLK LOW
+        if ((byte >> (8 - i)) & BIT0) { P1OUT |= SER; }  // SER HIGH
+        else { P1OUT &= ~SER; }  // SER LOW
+        P1OUT |= SRCLK;  // SRCLK HIGH
+    }
+    P1OUT |= RCLK;  // RCLK HIGH
+    P1OUT ^= RCLK;  // RCLK LOW
 }

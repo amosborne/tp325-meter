@@ -11,3 +11,4 @@ fp-info-cache
 *.raw
 
 .python-version
+.ipynb_checkpoints/

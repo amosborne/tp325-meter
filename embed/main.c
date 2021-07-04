@@ -28,10 +28,10 @@ const unsigned int BASE[] = {10000, 1000, 100, 10, 1};
 #define DISPLAY_FREQ 100  // Hz
 #define DISPLAY_TICK 1000000 / DISPLAY_FREQ / SYSTEM_TICK / 4  // counts
 
-#define UPDATE_FREQ 5  // Hz
+#define UPDATE_FREQ 2  // Hz
 #define UPDATE_TICK 1000000 / SYSTEM_TICK / UPDATE_FREQ  // counts
 
-#define MOVAVEN 13  // number of readings to average
+#define MOVAVEN 9  // number of readings to average
 
 unsigned int readings[MOVAVEN];  // array of readings, first element latest
 unsigned int display_digit;  // display digit to update
@@ -66,7 +66,7 @@ void init_gpio()
 void init_clock()
 {
     DCOCTL = CALDCO_8MHZ;  // select frequency range
-    BCSCTL1 = CALBC1_8MHZ | DIVA_2; // select frequency, ALCK = MCLK/4
+    BCSCTL1 = CALBC1_8MHZ | DIVA_1; // select frequency, ALCK = MCLK/2
 }
 
 void init_timer()
